@@ -75,7 +75,7 @@ const problemService = () => {
     const problemRepo = getRepository(Problem)
 
     const data = await problemRepo.findOne(problemId, {
-      relations: ['correctAnswers'],
+      relations: ['acceptedAnswer'],
     })
 
     if (!data) {
@@ -85,18 +85,14 @@ const problemService = () => {
     if (data.correctAnswer === answer) {
       const repository = getRepository(Answer)
 
-      const existingAnswer = data.correctAnswers.find(o => o.value === answer)
-
-      if (!existingAnswer) {
+      if (!data.acceptedAnswer) {
         const newAnswer = repository.create({ value: answer })
-
-        data.correctAnswers.push(newAnswer)
+        data.acceptedAnswer = newAnswer
         await problemRepo.save(data)
-
         return { data: newAnswer }
       }
 
-      return { data: existingAnswer }
+      return { data: data.acceptedAnswer }
     }
 
     return { data: 'Wrong Answer' }
