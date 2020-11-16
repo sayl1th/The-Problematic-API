@@ -17,7 +17,6 @@ const respond = (
     res.status(statusCode)
     return respondFn(req, res, result)
   } catch (error) {
-    console.log('jereeee')
     next(error)
   }
 }
