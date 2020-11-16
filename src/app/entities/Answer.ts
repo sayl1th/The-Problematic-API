@@ -16,6 +16,9 @@ class Answer {
   id!: number
 
   @Column()
+  userId!: number
+
+  @Column()
   problemId!: number
 
   @Column()
