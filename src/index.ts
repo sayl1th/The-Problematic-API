@@ -19,7 +19,6 @@ server
       entities: [resolve(__dirname, 'app/entities/*.js')],
     })
       .then(() => {
-        // console.log(getConnection())
         logger.info('connected to db')
       })
       .catch(error => {
