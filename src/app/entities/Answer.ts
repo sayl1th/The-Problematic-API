@@ -1,5 +1,12 @@
 /* eslint-disable new-cap */
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import Problem from './Problem'
 import User from './User'
 
@@ -9,18 +16,18 @@ class Answer {
   id!: number
 
   @Column()
-  userId!: number
+  problemId!: number
 
   @Column()
-  proplemId!: number
+  value!: string
 
-  @Column()
-  correctAnswer!: string
-
-  @ManyToOne(() => User, user => user.correctAnswers)
+  @ManyToOne(() => User, user => user.correctAnswers, { onDelete: 'CASCADE' })
   user!: User
 
-  @ManyToOne(() => Problem, problem => problem.correctAnswers)
+  @OneToOne(() => Problem, problem => problem.acceptedAnswer, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
   problem!: Problem
 }
 
