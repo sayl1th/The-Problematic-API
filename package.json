@@ -42,7 +42,10 @@
     "lodash": "^4.17.20",
     "node-healthz": "^1.0.1",
     "npm-run-series": "^1.0.1",
+    "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
+    "sqlite3": "^5.0.0",
+    "typeorm": "^0.2.29",
     "unicore": "^0.4.0"
   },
   "devDependencies": {
