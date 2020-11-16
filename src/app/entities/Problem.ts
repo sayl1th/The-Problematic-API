@@ -15,6 +15,9 @@ class Problem {
   id!: number
 
   @Column()
+  userId!: number
+
+  @Column()
   type!: string
 
   @Column()
