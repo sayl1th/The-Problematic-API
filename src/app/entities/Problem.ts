@@ -20,10 +20,13 @@ class Problem {
   @Column()
   description!: string
 
-  @ManyToOne(() => User, user => user.problems)
+  @Column()
+  correctAnswer!: string
+
+  @ManyToOne(() => User, user => user.problems, { onDelete: 'CASCADE' })
   user!: User
 
-  @OneToMany(() => Answer, answers => answers.problem)
+  @OneToMany(() => Answer, answers => answers.problem, { cascade: true })
   correctAnswers!: Answer[]
 }
 

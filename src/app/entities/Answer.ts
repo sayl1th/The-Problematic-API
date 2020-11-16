@@ -9,18 +9,17 @@ class Answer {
   id!: number
 
   @Column()
-  userId!: number
+  problemId!: number
 
   @Column()
-  proplemId!: number
+  value!: string
 
-  @Column()
-  correctAnswer!: string
-
-  @ManyToOne(() => User, user => user.correctAnswers)
+  @ManyToOne(() => User, user => user.correctAnswers, { onDelete: 'CASCADE' })
   user!: User
 
-  @ManyToOne(() => Problem, problem => problem.correctAnswers)
+  @ManyToOne(() => Problem, problem => problem.correctAnswers, {
+    onDelete: 'CASCADE',
+  })
   problem!: Problem
 }
 
