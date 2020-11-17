@@ -1,4 +1,5 @@
-import { getRepository } from 'typeorm'
+/* eslint-disable new-cap */
+import { FindOperator, getRepository, In, Not } from 'typeorm'
 import { HttpContext } from '../controllers/utils/httpContext'
 import Problem from '../entities/Problem'
 import Answer from '../entities/Answer'
@@ -39,14 +40,44 @@ const get = async (context: HttpContext) => {
 
 const getAll = async (context: HttpContext) => {
   const repository = getRepository(Problem)
+  const answersRepo = getRepository(Answer)
 
-  const data = await repository.find()
+  const filter: { id?: FindOperator<number>; type?: FindOperator<string> } = {}
+  const userId = context.user?.id
 
-  if (data.length === 0) {
+  if (context.params.type) {
+    const { type } = context.params
+    filter.type = Array.isArray(type) ? In(type) : In([type])
+  }
+
+  if (context.params.isAnswered) {
+    const isAnswered = context.params.isAnswered === 'true'
+    const answeredProblemsIds = (
+      await answersRepo.find({ where: { userId } })
+    ).map(a => a.problemId)
+
+    filter.id = isAnswered
+      ? In(answeredProblemsIds)
+      : Not(In(answeredProblemsIds))
+  }
+
+  const data = await repository.findAndCount({
+    take: context.limit,
+    skip: context.offset,
+    where: {
+      ...filter,
+    },
+  })
+
+  if (data[0].length === 0) {
     throw new NotFound()
   }
 
-  return { data }
+  return {
+    data: data[0],
+    totalItems: data[1],
+    totalPages: Math.ceil(data[1] / context.limit),
+  }
 }
 
 const update = async (context: HttpContext) => {
@@ -84,10 +115,11 @@ const remove = async (context: HttpContext) => {
 const answerToProblem = async (context: HttpContext) => {
   const { answer } = context.payload
   const problemId = context.params.id
+  const userId = context.user?.id
   const problemRepo = getRepository(Problem)
 
   const data = await problemRepo.findOne(problemId, {
-    relations: ['acceptedAnswer'],
+    relations: ['acceptedAnswers'],
   })
 
   if (!data) {
@@ -97,14 +129,11 @@ const answerToProblem = async (context: HttpContext) => {
   if (data.correctAnswer === answer) {
     const repository = getRepository(Answer)
 
-    if (!data.acceptedAnswer) {
-      const newAnswer = repository.create({ value: answer })
-      data.acceptedAnswer = newAnswer
-      await problemRepo.save(data)
-      return { data: newAnswer }
-    }
+    const newAnswer = repository.create({ value: answer, userId })
+    data.acceptedAnswers.push(newAnswer)
+    await problemRepo.save(data)
 
-    return { data: data.acceptedAnswer }
+    return { data: newAnswer }
   }
 
   return { data: 'Wrong Answer' }
