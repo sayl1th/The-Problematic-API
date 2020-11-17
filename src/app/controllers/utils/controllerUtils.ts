@@ -1,10 +1,4 @@
-import {
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-  Router,
-} from 'express'
+import { NextFunction, Request, RequestHandler, Response } from 'express'
 import { mapValues, omit, values } from 'lodash'
 import httpContext from './httpContext'
 
@@ -32,9 +26,13 @@ const omitPagination = (o: any) => omit(o, ['limit', 'offset'])
 
 const pipeMiddleware = (...middlewares: RequestHandler[]) => {
   // eslint-disable-next-line new-cap
-  const router = Router()
-  middlewares.forEach(m => router.use(m))
-  return router
+
+  // const router = createRouter()
+  // middlewares.forEach(m => router.use(m))
+  // return router
+
+  // shouldn't this method just return RequestHandlers?
+  return middlewares
 }
 
 const bindContext = (req: Request, res: Response, next: NextFunction) => {
