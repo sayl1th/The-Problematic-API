@@ -1,22 +1,22 @@
+/* eslint-disable no-eval */
 /* eslint-disable new-cap */
 import { FindOperator, getRepository, In, Not } from 'typeorm'
 import { HttpContext } from '../controllers/utils/httpContext'
 import Problem from '../entities/Problem'
 import Answer from '../entities/Answer'
 import { NotFound } from '../errors/classes'
+import config from '../../config'
 
 const create = async (context: HttpContext) => {
   const repository = getRepository(Problem)
 
   const { type, description } = context.payload
-  const userId = context.user?.id
-  const correctAnswer = type === 'riddle' ? 'It is 42' : '4'
+  const userId = parseInt(context.user?.id, 10)
 
   const problemDto = repository.create({
     userId,
     type,
     description,
-    correctAnswer,
   })
 
   const data = await repository.save(problemDto)
@@ -27,7 +27,7 @@ const create = async (context: HttpContext) => {
 const get = async (context: HttpContext) => {
   const repository = getRepository(Problem)
 
-  const { id } = context.params
+  const id = parseInt(context.params.id)
 
   const data = await repository.findOne(id)
 
@@ -43,7 +43,7 @@ const getAll = async (context: HttpContext) => {
   const answersRepo = getRepository(Answer)
 
   const filter: { id?: FindOperator<number>; type?: FindOperator<string> } = {}
-  const userId = context.user?.id
+  const userId = parseInt(context.user?.id, 10)
 
   if (context.params.type) {
     const { type } = context.params
@@ -83,8 +83,8 @@ const getAll = async (context: HttpContext) => {
 const update = async (context: HttpContext) => {
   const repository = getRepository(Problem)
 
-  const { id } = context.params
-  const userId = context.user?.id
+  const id = parseInt(context.params.id)
+  const userId = parseInt(context.user?.id, 10)
 
   const data = await repository.findOne(id, { where: { userId } })
 
@@ -92,7 +92,7 @@ const update = async (context: HttpContext) => {
     throw new NotFound()
   }
 
-  const updatedData = repository.save({ id, ...context.payload })
+  const updatedData = await repository.save({ id, userId, ...context.payload })
   return { data: updatedData }
 }
 
@@ -114,11 +114,12 @@ const remove = async (context: HttpContext) => {
 
 const answerToProblem = async (context: HttpContext) => {
   const { answer } = context.payload
-  const problemId = context.params.id
-  const userId = context.user?.id
+  const id = parseInt(context.params.id)
+  const userId = parseInt(context.user?.id, 10)
+
   const problemRepo = getRepository(Problem)
 
-  const data = await problemRepo.findOne(problemId, {
+  const data = await problemRepo.findOne(id, {
     relations: ['acceptedAnswers'],
   })
 
@@ -126,7 +127,10 @@ const answerToProblem = async (context: HttpContext) => {
     throw new NotFound()
   }
 
-  if (data.correctAnswer === answer) {
+  const correctAnswer =
+    data.type === 'riddle' ? config.staticAnswer : eval(data.description)
+
+  if (correctAnswer === answer) {
     const repository = getRepository(Answer)
 
     const newAnswer = repository.create({ value: answer, userId })

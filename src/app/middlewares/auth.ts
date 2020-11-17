@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express'
-import { NotAuthenticated } from '../../errors/classes'
-import * as userService from '../../services/userService'
+import { NotAuthenticated } from '../errors/classes'
+import * as userService from '../services/userService'
 
 export const basicAuth = async (
   req: Request,

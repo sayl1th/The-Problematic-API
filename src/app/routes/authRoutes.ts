@@ -4,6 +4,6 @@ import { register } from '../services/userService'
 
 const router = createRouter()
 
-router.route('/register').post(baseController(register))
+router.route('/register').post(baseController(register, 201))
 
 export default router
