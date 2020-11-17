@@ -123,7 +123,9 @@ const answerToProblem = async (context: HttpContext) => {
   }
 
   const correctAnswer =
-    data.type === 'riddle' ? config.staticAnswer : eval(data.description)
+    data.type === 'riddle'
+      ? config.staticAnswer
+      : eval(data.description).toString()
 
   if (correctAnswer === answer) {
     const repository = getRepository(Answer)
