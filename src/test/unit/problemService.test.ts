@@ -61,7 +61,7 @@ describe('problemService', () => {
     context.payload = { ...testProblemObj }
     context.params = { id: 1 }
 
-    const testProblem = { id: 1, userId: context.user?.id, ...testProblemObj }
+    const testProblem = { id: 1, userId: 1, ...testProblemObj }
 
     mockedRepo.findOne.mockResolvedValue(testProblem)
 
@@ -69,23 +69,25 @@ describe('problemService', () => {
 
     mockedRepo.save.mockResolvedValue(updatedProblem)
 
-    const data = await problemService.update(context as HttpContext)
+    await problemService.update(context as HttpContext)
 
-    expect(data).toEqual({ data: updatedProblem })
+    expect(mockedRepo.findOne).toHaveBeenCalledWith(1, { where: { userId: 1 } })
+    expect(mockedRepo.save).toHaveBeenCalledWith(testProblem)
   })
 
   test('remove', async () => {
     const context = initContext()
     context.params = { id: 1 }
 
-    const testProblem = { id: 1, userId: context.user?.id, ...testProblemObj }
+    const testProblem = { id: 1, userId: 1, ...testProblemObj }
 
     mockedRepo.findOne.mockResolvedValue(testProblem)
     mockedRepo.remove.mockResolvedValue(testProblem)
 
-    const data = await problemService.remove(context as HttpContext)
+    await problemService.remove(context as HttpContext)
 
-    expect(data).toEqual({ data: testProblem })
+    expect(mockedRepo.findOne).toHaveBeenCalledWith(1, { where: { userId: 1 } })
+    expect(mockedRepo.remove).toHaveBeenCalledWith(testProblem)
   })
 
   test('getAll', async () => {

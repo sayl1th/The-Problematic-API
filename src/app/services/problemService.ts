@@ -69,10 +69,6 @@ const getAll = async (context: HttpContext) => {
     },
   })
 
-  if (data[0].length === 0) {
-    throw new NotFound()
-  }
-
   return {
     data: data[0],
     totalItems: data[1],
@@ -92,15 +88,14 @@ const update = async (context: HttpContext) => {
     throw new NotFound()
   }
 
-  const updatedData = await repository.save({ id, userId, ...context.payload })
-  return { data: updatedData }
+  await repository.save({ id, userId, ...context.payload })
 }
 
 const remove = async (context: HttpContext) => {
   const repository = getRepository(Problem)
 
-  const { id } = context.params
-  const userId = context.user?.id
+  const id = parseInt(context.params.id)
+  const userId = parseInt(context.user?.id, 10)
 
   const data = await repository.findOne(id, { where: { userId } })
 
@@ -109,11 +104,11 @@ const remove = async (context: HttpContext) => {
   }
 
   await repository.remove(data)
-  return { data }
 }
 
 const answerToProblem = async (context: HttpContext) => {
   const { answer } = context.payload
+
   const id = parseInt(context.params.id)
   const userId = parseInt(context.user?.id, 10)
 
@@ -140,7 +135,7 @@ const answerToProblem = async (context: HttpContext) => {
     return { data: newAnswer }
   }
 
-  return { data: 'Wrong Answer' }
+  return { error: 'Wrong Answer' }
 }
 
 export { create, get, getAll, update, remove, answerToProblem }

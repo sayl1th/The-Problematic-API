@@ -1,0 +1,21 @@
+
+# Group Answer
+
+## /api/problems/answer
+
+### Create [POST]
+
++ Request (application/json)
+    + Headers
+
+            Authorization: Basic Authentication
+
+    + Attributes(Answer.Create, fixed-type)
+
++ Response 200 (application/json)
+    + Attributes (object)
+      + data (Answer.Created, fixed-type)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + error: Wrong Answer (string)
