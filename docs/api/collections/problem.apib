@@ -1,0 +1,80 @@
+# Group Problems
+
+## /api/problems/
+
+### List [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+      + data: (array[Problem.Created], fixed-type)
+
++ Response 200 (application/json)
+    + Attributes (object)
+      + data: (array[], fixed-type)
+
+### Create [POST]
+
++ Request (application/json)
+    + Headers
+            Authorization: Basic Authentication
+    + Attributes(Problem.Create, fixed-type)
+
++ Response 201 (application/json)
+    + Attributes (object)
+      + data: (Problem.Created, fixed-type)
+
+### Get One [GET /problems/{id}]
+
++ Parameters
+    + id (enum[string])
+        Id of a Post - path parameter
+
++ Response 200 (application/json)
+    + Attributes (object)
+      + data: (Problem.Created, fixed-type)
+
++ Response 404 (application/json)
+
+### Update [PUT /problems/{id}]
+
++ Parameters
+    + id (enum[string])
+        Id of a Post - path parameter
+
++ Request
+    + Attributes(Problem.Create, fixed-type)
+    + Headers
+            Authorization: Basic Authentication
+
++ Response 204
+
++ Response 404 (application/json)
+
+### Delete [DELETE /problems/{id}]
+
++ Parameters
+    + id (enum[string])
+        Id of a Post - path parameter
+
++ Request
+    + Headers
+            Authorization: Basic Authentication
+
++ Response 204
+
++ Response 404 (application/json)
+
+## /api/problems/answer
+
+### Create [POST]
+
++ Request (application/json)
+    + Headers
+            Authorization: Basic Authentication
+    + Attributes(Answer.Create, fixed-type)
+
++ Response 200 (application/json)
+    + Attributes(Answer.Created, fixed-type)
+
++ Response 200 (application/json)
+    + Attributes(Answer.Created, fixed-type)
