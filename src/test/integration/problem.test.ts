@@ -4,6 +4,7 @@ import { resolve } from 'path'
 import * as request from 'supertest-as-promised'
 import { createConnection, getConnection, getRepository } from 'typeorm'
 import User from '../../app/entities/User'
+import config from '../../config'
 import app from '../../server'
 
 jest.unmock('typeorm')
@@ -44,7 +45,7 @@ describe('Problem', () => {
     expect(payload).toEqual({ data })
 
     // answer
-    const answerInput = { answer: 'It is 42' }
+    const answerInput = { answer: config.staticAnswer }
     res = await req
       .post('/api/problems/1/answer')
       .auth('test', ' ')

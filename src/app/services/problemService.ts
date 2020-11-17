@@ -5,6 +5,7 @@ import { HttpContext } from '../controllers/utils/httpContext'
 import Problem from '../entities/Problem'
 import Answer from '../entities/Answer'
 import { NotFound } from '../errors/classes'
+import config from '../../config'
 
 const create = async (context: HttpContext) => {
   const repository = getRepository(Problem)
@@ -127,7 +128,7 @@ const answerToProblem = async (context: HttpContext) => {
   }
 
   const correctAnswer =
-    data.type === 'riddle' ? 'It is 42' : eval(data.description)
+    data.type === 'riddle' ? config.staticAnswer : eval(data.description)
 
   if (correctAnswer === answer) {
     const repository = getRepository(Answer)

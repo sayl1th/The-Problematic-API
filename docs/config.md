@@ -4,7 +4,7 @@
 
 To overwrite the default config, create a valid json file from `.env.json`, rewrite the default config and set the `CFG_JSON_PATH` env variable, e.g. `CFG_JSON_PATH=~/.env/foo.json`.
 
-You can read more in [Configuru readme](https://github.com/AckeeCZ/configuru).
+You can read more in [Configuru readme](https://githubc.com/AckeeCZ/configuru).
 
 ## Adding new key
 

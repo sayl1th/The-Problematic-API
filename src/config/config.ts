@@ -17,6 +17,7 @@ const configSchema = {
   server: {
     port: loader.number('SERVER_PORT'),
   },
+  staticAnswer: loader.string('RIDDLE_ANSWER'),
 }
 
 export default values(configSchema)

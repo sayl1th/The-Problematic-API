@@ -2,6 +2,7 @@ import { HttpContext } from '../../app/controllers/utils/httpContext'
 import * as problemService from '../../app/services/problemService'
 import { mocked } from 'ts-jest/utils'
 import { getRepository } from 'typeorm'
+import config from '../../config'
 
 const mockedEntity = ({} as const) as jest.Mock
 
@@ -102,7 +103,7 @@ describe('problemService', () => {
   })
 
   test('answerToProblem', async () => {
-    const answerObj = { answer: 'It is 42' }
+    const answerObj = { answer: config.staticAnswer }
     const answer = {
       ...answerObj,
       userId: 1,

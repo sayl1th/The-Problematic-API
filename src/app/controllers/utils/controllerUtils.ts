@@ -9,7 +9,7 @@ const writeResponse: WriteResponse = (_, res, data) => res.json(data)
 
 const respond = (
   controllerHandler: SimpleHandler,
-  statusCode: number,
+  statusCode = 200,
   respondFn: WriteResponse = writeResponse
 ): Handler => async (req, res, next) => {
   try {
