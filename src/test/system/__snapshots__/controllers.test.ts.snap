@@ -32,11 +32,7 @@ Object {
 }
 `;
 
-exports[`Controller utils respond Calls handler and default writer saves result to response 1`] = `
-Object {
-  "good": true,
-}
-`;
+exports[`Controller utils respond Calls handler and default writer saves result to response 1`] = `Object {}`;
 
 exports[`Controller utils respond Custom writer 1`] = `
 Object {

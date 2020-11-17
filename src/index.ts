@@ -15,7 +15,7 @@ server
       type: 'sqlite',
       database: ':memory:',
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [resolve(__dirname, 'app/entities/*.js')],
     })
       .then(() => {

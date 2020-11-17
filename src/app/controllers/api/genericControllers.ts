@@ -7,10 +7,11 @@ import {
 import { HttpContext } from '../utils/httpContext'
 
 export const baseController = (
-  serviceHandler: (context: HttpContext) => PromiseLike<any>
+  serviceHandler: (context: HttpContext) => PromiseLike<any>,
+  statusCode = 200
 ) =>
   pipeMiddleware(
     bindContext,
     meTranslate,
-    respond(({ context }) => serviceHandler(context), 200)
+    respond(({ context }) => serviceHandler(context), statusCode)
   )

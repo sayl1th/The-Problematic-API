@@ -1,8 +1,7 @@
 import { createRouter } from 'unicore'
 import { baseController } from '../controllers/api/genericControllers'
-import * as problemController from '../controllers/api/problemController'
 import * as problemService from '../services/problemService'
-import { basicAuth } from '../controllers/utils/auth'
+import { basicAuth } from '../middlewares/auth'
 import problemRules from '../middlewares/problemRules'
 import validator from '../middlewares/customValidator'
 
@@ -12,11 +11,7 @@ router.use(basicAuth)
 
 router
   .route('/')
-  .post(
-    problemRules,
-    validator,
-    problemController.createOne(problemService.create)
-  )
+  .post(problemRules, validator, baseController(problemService.create, 201))
   .get(baseController(problemService.getAll))
 
 router
@@ -25,6 +20,6 @@ router
   .put(problemRules, validator, baseController(problemService.update))
   .delete(baseController(problemService.remove))
 
-router.post('/:id/answer', baseController(problemService.answerToProblem))
+router.post('/:id/answer', baseController(problemService.answerToProblem, 201))
 
 export default router

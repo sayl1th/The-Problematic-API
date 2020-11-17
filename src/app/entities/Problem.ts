@@ -23,9 +23,6 @@ class Problem {
   @Column()
   description!: string
 
-  @Column()
-  correctAnswer!: string
-
   @ManyToOne(() => User, user => user.problems, { onDelete: 'CASCADE' })
   user!: User
 
