@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { omit } from 'lodash'
 import { resolve } from 'path'
 import * as request from 'supertest-as-promised'
 import { createConnection, getConnection, getRepository } from 'typeorm'
@@ -52,7 +51,7 @@ describe('Problem', () => {
       .send(answerInput)
     payload = res.body
 
-    expect(res.status).toBe(201)
+    expect(res.status).toBe(200)
     expect(payload).toEqual({
       data: { value: answerInput.answer, id: 1, userId: 1, problemId: 1 },
     })
@@ -78,15 +77,13 @@ describe('Problem', () => {
     res = await req.put('/api/problems/1').auth('test', ' ').send(toUpdate)
     payload = res.body
 
-    expect(res.status).toBe(200)
-    expect(payload).toEqual({ data: { ...data, ...toUpdate } })
+    expect(res.status).toBe(204)
 
     // delete
 
     res = await req.delete('/api/problems/1').auth('test', ' ')
     payload = res.body
 
-    expect(res.status).toBe(200)
-    expect(payload).toEqual({ data: omit({ ...data, ...toUpdate }, 'id') })
+    expect(res.status).toBe(204)
   })
 })

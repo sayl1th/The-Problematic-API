@@ -17,9 +17,9 @@ router
 router
   .route('/:id([0-9]+)')
   .get(baseController(problemService.get))
-  .put(problemRules, validator, baseController(problemService.update))
-  .delete(baseController(problemService.remove))
+  .put(problemRules, validator, baseController(problemService.update, 204))
+  .delete(baseController(problemService.remove, 204))
 
-router.post('/:id/answer', baseController(problemService.answerToProblem, 201))
+router.post('/:id/answer', baseController(problemService.answerToProblem))
 
 export default router
