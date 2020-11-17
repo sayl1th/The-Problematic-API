@@ -6,11 +6,12 @@
 
 + Response 200 (application/json)
     + Attributes (object)
-      + data: (array[Problem.Created], fixed-type)
+      + data: (array, fixed-type)
+        + (Problem.Created, fixed-type)
 
 + Response 200 (application/json)
     + Attributes (object)
-      + data: (array[], fixed-type)
+      + data: (array, fixed-type)
 
 ### Create [POST]
 
@@ -74,7 +75,10 @@
     + Attributes(Answer.Create, fixed-type)
 
 + Response 200 (application/json)
-    + Attributes(Answer.Created, fixed-type)
+    + Attributes (object)
+      + data: (Answer.Created, fixed-type)
 
 + Response 200 (application/json)
-    + Attributes(Answer.Created, fixed-type)
+    + Attributes (object)
+      + (object)
+        + error: Wrong Answer (string)

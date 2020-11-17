@@ -135,7 +135,7 @@ const answerToProblem = async (context: HttpContext) => {
     return { data: newAnswer }
   }
 
-  return { data: 'Wrong Answer' }
+  return { error: 'Wrong Answer' }
 }
 
 export { create, get, getAll, update, remove, answerToProblem }
