@@ -3,7 +3,7 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import Answer from './Answer'
@@ -29,8 +29,8 @@ class Problem {
   @ManyToOne(() => User, user => user.problems, { onDelete: 'CASCADE' })
   user!: User
 
-  @OneToOne(() => Answer, answers => answers.problem, { cascade: true })
-  acceptedAnswer!: Answer
+  @OneToMany(() => Answer, answers => answers.problem, { cascade: true })
+  acceptedAnswers!: Answer[]
 }
 
 export default Problem
