@@ -1,4 +1,5 @@
-# Group Problems
+
+# Group Problem
 
 ## /api/problems/
 
@@ -6,35 +7,31 @@
 
 + Response 200 (application/json)
     + Attributes (object)
-      + data: (array, fixed-type)
-        + (Problem.Created, fixed-type)
+      + data (array[Problem.Created], fixed-type)
 
-+ Response 200 (application/json)
-    + Attributes (object)
-      + data: (array, fixed-type)
 
 ### Create [POST]
 
 + Request (application/json)
     + Headers
-            Authorization: Basic Authentication
+
+            Authorization: Basic Auth
+
     + Attributes(Problem.Create, fixed-type)
 
 + Response 201 (application/json)
     + Attributes (object)
-      + data: (Problem.Created, fixed-type)
+        + data (Problem.Created, fixed-type)
 
 ### Get One [GET /problems/{id}]
 
 + Parameters
     + id (enum[string])
-        Id of a Post - path parameter
+        Id of a problem - path parameter
 
 + Response 200 (application/json)
     + Attributes (object)
-      + data: (Problem.Created, fixed-type)
-
-+ Response 404 (application/json)
+      + data (Problem.Created, fixed-type)
 
 ### Update [PUT /problems/{id}]
 
@@ -45,7 +42,8 @@
 + Request
     + Attributes(Problem.Create, fixed-type)
     + Headers
-            Authorization: Basic Authentication
+
+            Authorization: Basic Auth
 
 + Response 204
 
@@ -59,26 +57,9 @@
 
 + Request
     + Headers
-            Authorization: Basic Authentication
+
+            Authorization: Basic Auth
 
 + Response 204
 
 + Response 404 (application/json)
-
-## /api/problems/answer
-
-### Create [POST]
-
-+ Request (application/json)
-    + Headers
-            Authorization: Basic Authentication
-    + Attributes(Answer.Create, fixed-type)
-
-+ Response 200 (application/json)
-    + Attributes (object)
-      + data: (Answer.Created, fixed-type)
-
-+ Response 200 (application/json)
-    + Attributes (object)
-      + (object)
-        + error: Wrong Answer (string)
