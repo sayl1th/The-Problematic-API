@@ -61,7 +61,7 @@ const getAll = async (context: HttpContext) => {
       : Not(In(answeredProblemsIds))
   }
 
-  const data = await repository.findAndCount({
+  const [data, count] = await repository.findAndCount({
     take: context.limit,
     skip: context.offset,
     where: {
@@ -70,9 +70,9 @@ const getAll = async (context: HttpContext) => {
   })
 
   return {
-    data: data[0],
-    totalItems: data[1],
-    totalPages: Math.ceil(data[1] / context.limit),
+    data: data,
+    totalItems: count,
+    totalPages: Math.ceil(count / context.limit),
   }
 }
 
